@@ -3,12 +3,12 @@ from flask import jsonify
 from flask import request
 from flask.views import MethodView
 
-from audit_logger import FlaskAuditLogger
+from flask_auditor import FlaskAuditor
 
 app = Flask(__name__)
 app.config['AUDIT_LOGGER_SKIP'] = False
 app.config['AUDIT_LOGGER_SOURCE_NAME'] = 'classBasedViewExample'
-audit = FlaskAuditLogger(app)
+audit = FlaskAuditor(app)
 
 
 @audit.log(action_id='GET_USER', description='Fetch a single user by ID')

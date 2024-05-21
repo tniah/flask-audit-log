@@ -1,24 +1,27 @@
-# Flask-Audit-Log
+# Flask-Auditor
 
-Flask-Audit-Log is an extension for Flask that extract request and response to audit log.
+Flask-Auditor is an extension for Flask that extract request and response to audit log.
 
 ## Installing
+
 Install and upgrade using pip:
+
 ```shell
-$ pip install flask-audit-log
+$ pip install flask_auditor
 ```
 
-##  A simple example
-```py
-from flask import Flask, jsonify
-from flask.views import MethodView
+## A simple example
 
-from audit_logger import FlaskAuditLogger
+```py
+from flask import Flask
+from flask import jsonify
+from flask.views import MethodView
+from flask_auditor import FlaskAuditor
 
 app = Flask(__name__)
 app.config['AUDIT_LOGGER_SKIP'] = False
 app.config['AUDIT_LOGGER_SOURCE_NAME'] = 'classBasedViewExample'
-audit = FlaskAuditLogger(app)
+audit = FlaskAuditor(app)
 
 
 @audit.log(action_id='GET_USER', description='Fetch a single user by ID')

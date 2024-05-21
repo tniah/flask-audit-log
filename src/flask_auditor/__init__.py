@@ -1,4 +1,4 @@
-"""An Flask extension to log audit logs."""
+"""A Flask extension to extract audit logs."""
 import logging
 from datetime import datetime
 from threading import Thread
@@ -13,8 +13,8 @@ from .request import RequestLogger
 from .response import ResponseLogger
 
 
-class FlaskAuditLogger:
-    """Flask extension to log audit logs."""
+class FlaskAuditor:
+    """Flask extension to extract audit logs."""
 
     def __init__(self, app: Optional[flask.Flask] = None) -> None:
         """Initializes an object of the FlaskAuditLog.
@@ -155,7 +155,7 @@ class FlaskAuditLogger:
 
         def handler(audit_log: dict):
             self.app.logger.info(
-                'audit_logger.FlaskAuditLogger: %s', audit_log)
+                'flask_auditor.FlaskAuditLogger: %s', audit_log)
 
         return handler
 

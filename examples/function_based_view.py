@@ -2,10 +2,10 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 
-from audit_logger import FlaskAuditLogger
+from flask_auditor import FlaskAuditor
 
 app = Flask(__name__)
-audit = FlaskAuditLogger(app)
+audit = FlaskAuditor(app)
 
 
 @app.route('/api/v1/users', methods=['GET'])
