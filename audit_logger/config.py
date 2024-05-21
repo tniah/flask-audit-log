@@ -1,6 +1,3 @@
-from typing import Optional
-
-
 class AuditLoggerConfig:
     # Set to true to disable audit logger
     skip = False
@@ -47,7 +44,7 @@ class AuditLoggerConfig:
     log_user_agent = True
 
     # Instructs logger to extract response status code.
-    log_status = True
+    log_status_code = True
 
     # Instructs logger to extract error returned from executed handlers.
     log_error = True
@@ -57,9 +54,6 @@ class AuditLoggerConfig:
 
     # Instructs logger to extract response content length value.
     log_response_size = True
-
-    # Instructs logger to extract response body.
-    log_response_body = True
 
     # Instructs logger to extract given list of headers from request.
     log_request_headers = True
@@ -104,14 +98,13 @@ class AuditLoggerConfig:
             'log_request_id',
             'log_referer',
             'log_user_agent',
-            'log_status',
+            'log_status_code',
             'log_error',
             'log_content_length',
             'log_response_size',
             'log_request_headers',
             'log_request_body',
             'log_sensitive_data',
-            'log_response_body',
         )
         for key in keys:
             if key in kwargs and kwargs[key] is not None:

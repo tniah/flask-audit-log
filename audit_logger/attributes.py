@@ -24,7 +24,6 @@ REQUEST_BODY = 'requestBody'
 RESPONSE_STATUS_CODE = 'status'
 RESPONSE_ERROR = 'error'
 RESPONSE_SIZE = 'responseSize'
-RESPONSE_BODY = 'responseBody'
 
 SERVICE_NAME = 'serviceName'
 APPLICATION_ID = 'applicationId'
