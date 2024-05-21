@@ -26,6 +26,7 @@ class FlaskAuditLogger:
             app: Instance of the Flask application.
         """
         self._views = {}
+        self._hook: Optional[Callable] = None
         self._log_handlers = set()
         self._cfg: Optional[AuditLoggerConfig] = None
         self.app = None
@@ -76,6 +77,11 @@ class FlaskAuditLogger:
             else:
                 return resp
 
+            if self._hook:
+                extra = self._hook(flask.request, resp)
+                if extra and isinstance(extra, dict):
+                    kwargs['extra'] = extra
+
             thr = Thread(
                 target=self._extract,
                 args=(app, flask.request.environ.copy(), resp),
@@ -103,7 +109,7 @@ class FlaskAuditLogger:
 
     def _extract(self, app: Flask, environ,
                  flask_resp: Response, action_id: str,
-                 description: str) -> dict:
+                 description: str, extra: Optional[dict] = None) -> dict:
         """Extract Flask request and response to audit log.
 
         Args:
@@ -112,6 +118,7 @@ class FlaskAuditLogger:
             flask_resp: Flask response object.
             action_id: Unique identifier of the action.
             description: A description of the action.
+            extra: Extra information to include in audit log.
         """
         with app.request_context(environ):
             now = datetime.now()
@@ -126,6 +133,9 @@ class FlaskAuditLogger:
                 latency = datetime.now().timestamp() - now.timestamp()
                 audit_log[attributes.LATENCY] = round(latency, 5)
 
+            if isinstance(extra, dict):
+                audit_log.update(extra)
+
             if not self._log_handlers:
                 self.default_log_handler(audit_log)
             else:
@@ -134,7 +144,7 @@ class FlaskAuditLogger:
             return audit_log
 
     @property
-    def default_log_handler(self):
+    def default_log_handler(self) -> Callable:
         """Default audit log handler."""
         self.app.logger.setLevel(logging.INFO)
 
@@ -143,9 +153,17 @@ class FlaskAuditLogger:
 
         return handler
 
-    def register_log_handler(self, handler: Callable):
-        """Register a audit log handler."""
+    def register_log_handler(self, handler: Callable) -> None:
+        """Register an audit log handler."""
         if not isinstance(handler, Callable):
             raise TypeError("Handler must be callable.")
 
         self._log_handlers.add(handler)
+
+    def register_hook(self, hook: Callable) -> None:
+        """Register a hook to extract more information from request and
+        response for audit log."""
+        if not isinstance(hook, Callable):
+            raise TypeError("Hook must be callable.")
+
+        self._hook = hook

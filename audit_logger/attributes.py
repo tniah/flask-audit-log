@@ -1,10 +1,13 @@
+"""Definitions for audit logger."""
+
+SERVICE_NAME = 'serviceName'
+ACTION_ID = 'actionId'
+ACTION_DESCRIPTION = 'description'
+NOT_AVAILABLE = 'N/A'
 START_TIME = 'startTime'
 LATENCY = 'latency'
-NOT_AVAILABLE = 'N/A'
-
 SERVER_HOST = 'serverHost'
 SERVER_PORT = 'serverPort'
-
 REQUEST = 'request'
 REQUEST_ID = 'requestID'
 REQUEST_REMOTE_IP = 'remoteIP'
@@ -22,12 +25,7 @@ REQUEST_HEADERS = 'headers'
 REQUEST_QUERY_PARAMS = 'queryParams'
 REQUEST_BODY = 'requestBody'
 RESPONSE = 'response'
-RESPONSE_STATUS_CODE = 'status'
+RESPONSE_STATUS_CODE = 'statusCode'
+RESPONSE_STATUS = 'status'
 RESPONSE_ERROR = 'error'
 RESPONSE_SIZE = 'responseSize'
-
-SERVICE_NAME = 'serviceName'
-APPLICATION_ID = 'applicationId'
-ACTOR_ID = 'actorId'
-ACTION_ID = 'actionId'
-ACTION_DESCRIPTION = 'description'

@@ -19,7 +19,7 @@ class AuditLoggerConfig:
         'log_referer',
         'log_user_agent',
         'log_status_code',
-        'log_error',
+        'log_status',
         'log_content_length',
         'log_response_size',
         'log_request_headers',
@@ -73,8 +73,8 @@ class AuditLoggerConfig:
     # Instructs logger to extract response status code.
     log_status_code = True
 
-    # Instructs logger to extract error returned from executed handlers.
-    log_error = True
+    # Instructs logger to extract response status.
+    log_status = True
 
     # Instructs logger to extract content length header value.
     log_content_length = True
