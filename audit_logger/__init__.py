@@ -79,11 +79,9 @@ class FlaskAuditLogger:
                 if extra and isinstance(extra, dict):
                     kwargs['extra'] = extra
 
-            flask_req = flask.Request(environ=flask.request.environ.copy())
-            flask_req._cached_data = flask.request.data
             thr = Thread(
                 target=self._extract,
-                args=(flask_req, resp),
+                args=(self._clone_current_request(), resp),
                 kwargs=kwargs)
             thr.start()
             return resp
@@ -140,6 +138,14 @@ class FlaskAuditLogger:
             for handler in self._log_handlers:
                 handler(audit_log)
         return audit_log
+
+    @staticmethod
+    def _clone_current_request() -> flask.Request:
+        """Copy current request to Flask request object."""
+        flask_req = flask.Request(environ=flask.request.environ.copy())
+        flask_req._cached_data = flask.request.get_data()
+        flask_req.url_rule = flask.request.url_rule
+        return flask_req
 
     @property
     def default_log_handler(self) -> Callable:
