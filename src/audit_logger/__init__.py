@@ -7,10 +7,10 @@ from typing import Optional
 
 import flask
 
-from audit_logger import attributes
-from audit_logger.config import AuditLoggerConfig
-from audit_logger.request import RequestLogger
-from audit_logger.response import ResponseLogger
+from . import attributes
+from .config import AuditLoggerConfig
+from .request import RequestLogger
+from .response import ResponseLogger
 
 
 class FlaskAuditLogger:

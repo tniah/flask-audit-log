@@ -1,0 +1,21 @@
+[project]
+name = "flask-audit-log"
+description = "An extension for Flask application to extract audit logs."
+version = "0.1.0"
+authors = [
+    { name = "Kai Nguyen", email = "tronghaibk2008@gmail.com" },
+]
+maintainers = [{ name = "Kai Nguyen", email = "tronghaibk2008@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache License",
+    "Operating System :: OS Independent",
+    "Framework :: Flask",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/tniah/flask-audit-log"
+Issues = "https://github.com/tniah/flask-audit-log/issues"

@@ -2,8 +2,8 @@
 from flask import Response
 from werkzeug import http
 
-from audit_logger import attributes
-from audit_logger.base import BaseAuditLogger
+from . import attributes
+from .base import BaseAuditLogger
 
 
 class ResponseLogger(BaseAuditLogger):

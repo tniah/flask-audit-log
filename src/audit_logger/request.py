@@ -5,8 +5,8 @@ from urllib.parse import parse_qs
 
 from flask import Request
 
-from audit_logger import attributes
-from audit_logger.base import BaseAuditLogger
+from . import attributes
+from .base import BaseAuditLogger
 
 
 class RequestLogger(BaseAuditLogger):

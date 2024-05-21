@@ -3,7 +3,7 @@ import abc
 from typing import Any
 from typing import Optional
 
-from audit_logger import AuditLoggerConfig
+from .config import AuditLoggerConfig
 
 
 class BaseAuditLogger(metaclass=abc.ABCMeta):
