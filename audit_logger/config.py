@@ -5,7 +5,10 @@ class AuditLoggerConfig:
     """Config class for audit logger."""
     # Config options
     options = (
+        'source_name',
+        'datetime_format',
         'skip',
+        'log_server',
         'log_latency',
         'log_protocol',
         'log_remote_ip',
@@ -23,8 +26,11 @@ class AuditLoggerConfig:
         'log_content_length',
         'log_response_size',
         'log_request_headers',
+        'log_query_params',
         'log_request_body',
-        'log_sensitive_data')
+        'log_sensitive_data',
+        'default_request_headers',
+        'default_sensitive_parameters')
 
     # source name
     source_name = 'auditLogger'
