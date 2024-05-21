@@ -1,5 +1,5 @@
 [project]
-name = "flask-audit-log"
+name = "flask-auditor"
 description = "An extension for Flask application to extract audit logs."
 version = "0.1.0"
 authors = [
@@ -10,11 +10,13 @@ readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: Apache License",
+    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Framework :: Flask",
 ]
-dependencies = []
+dependencies = [
+    "flask>=2.3.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/tniah/flask-audit-log"
