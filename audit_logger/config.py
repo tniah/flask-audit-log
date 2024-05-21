@@ -1,4 +1,31 @@
+"""Implements a config class for audit logger."""
+
+
 class AuditLoggerConfig:
+    """Config class for audit logger."""
+    # Config options
+    options = (
+        'skip',
+        'log_latency',
+        'log_protocol',
+        'log_remote_ip',
+        'log_remote_port',
+        'log_host',
+        'log_method',
+        'log_uri',
+        'log_uri_path',
+        'log_route_path',
+        'log_request_id',
+        'log_referer',
+        'log_user_agent',
+        'log_status_code',
+        'log_error',
+        'log_content_length',
+        'log_response_size',
+        'log_request_headers',
+        'log_request_body',
+        'log_sensitive_data')
+
     # Set to true to disable audit logger
     skip = False
 
@@ -84,28 +111,6 @@ class AuditLoggerConfig:
 
     def __init__(self, **kwargs):
         """Initialize an object of the AuditLogConfig class."""
-        keys = (
-            'skip',
-            'log_latency',
-            'log_protocol',
-            'log_remote_ip',
-            'log_remote_port',
-            'log_host',
-            'log_method',
-            'log_uri',
-            'log_uri_path',
-            'log_route_path',
-            'log_request_id',
-            'log_referer',
-            'log_user_agent',
-            'log_status_code',
-            'log_error',
-            'log_content_length',
-            'log_response_size',
-            'log_request_headers',
-            'log_request_body',
-            'log_sensitive_data',
-        )
-        for key in keys:
+        for key in self.__class__.options:
             if key in kwargs and kwargs[key] is not None:
                 setattr(self, key, kwargs[key])

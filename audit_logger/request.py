@@ -213,7 +213,7 @@ class RequestLogger(BaseAuditLogger):
 
         Args:
             flask_req (Request): Flask request object.
-            headers (Optional[tuple]): A list of headers to extract.
+            headers (Optional[tuple]): A list of headers to retrieve.
         """
 
         if headers is None:
