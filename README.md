@@ -10,9 +10,7 @@ $ pip install flask-audit-log
 
 ##  A simple example
 ```py
-from flask import Flask
-from flask import jsonify
-from flask import request
+from flask import Flask, jsonify
 from flask.views import MethodView
 
 from audit_logger import FlaskAuditLogger
@@ -56,31 +54,6 @@ class UsersView(MethodView):
         resp.status_code = 200
         return resp
 
-    @audit.log(action_id='CREATE_USER', description='Create a new user')
-    def post(self):
-        """Handles POST requests."""
-        if request.is_json:
-            name = request.json.get('name')
-            if not name:
-                resp = jsonify({
-                    'error': 'validation_failed',
-                    'error_description': 'Please provide a name.'
-                })
-                resp.status_code = 400
-                return resp
-
-            return jsonify({
-                'id': 1,
-                'name': name
-            })
-
-        resp = jsonify({
-            'error': 'unsupported_media_type',
-            'error_description': 'Media type is not supported.'
-        })
-        resp.status_code = 415
-        return resp
-
 
 app.add_url_rule('/api/v1/users', view_func=UsersView.as_view('users'))
 app.add_url_rule('/api/v1/users/<int:user_id>',
@@ -88,5 +61,4 @@ app.add_url_rule('/api/v1/users/<int:user_id>',
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 ```
