@@ -24,7 +24,7 @@ class ResponseLogger(BaseAuditLogger):
             log_values[attributes.RESPONSE_SIZE] = self.get_response_size(
                 flask_resp)
 
-        return log_values
+        return self.convert_none_record(log_values)
 
     @staticmethod
     def get_status_code(flask_resp: Response) -> int:

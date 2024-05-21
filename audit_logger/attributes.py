@@ -3,7 +3,6 @@
 SOURCE_NAME = 'source'
 ACTION_ID = 'actionId'
 ACTION_DESCRIPTION = 'description'
-NOT_AVAILABLE = 'N/A'
 START_TIME = 'startTime'
 LATENCY = 'latency'
 SERVER_HOST = 'serverHost'

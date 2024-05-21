@@ -29,7 +29,7 @@ class FlaskAuditLogger:
         self._hook: Optional[Callable] = None
         self._log_handlers = set()
         self._cfg: Optional[AuditLoggerConfig] = None
-        self.app = None
+        self.app: Optional[Flask] = None
         self.request_logger: Optional[RequestLogger] = None
         self.response_logger: Optional[ResponseLogger] = None
         if app:

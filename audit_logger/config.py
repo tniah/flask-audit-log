@@ -32,6 +32,9 @@ class AuditLoggerConfig:
         'default_request_headers',
         'default_sensitive_parameters')
 
+    # default value for not available record
+    not_available = 'N/A'
+
     # source name
     source_name = 'auditLogger'
 

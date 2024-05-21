@@ -1,6 +1,7 @@
 """Implement a base class for audit loggers."""
-from typing import Optional
 import abc
+from typing import Any
+from typing import Optional
 
 from audit_logger import AuditLoggerConfig
 
@@ -41,3 +42,25 @@ class BaseAuditLogger(metaclass=abc.ABCMeta):
             sensitive_params = self.cfg.default_sensitive_parameters
 
         return {k: v for k, v in params.items() if k not in sensitive_params}
+
+    def convert_none_record(
+            self, params: dict,
+            not_available: Optional[Any] = None) -> dict:
+        """Convert none record value to the given value."""
+        if not_available is None:
+            not_available = self.cfg.not_available
+
+        keys = params.keys()
+        for k in keys:
+            if params[k] is None:
+                params[k] = not_available
+            elif isinstance(params[k], dict):
+                params[k] = self.convert_none_record(params[k], not_available)
+            elif isinstance(params[k], list) or isinstance(params[k], tuple):
+                params[k] = [
+                    not_available if v is None else v for v in params[k]
+                ]
+            else:
+                # TODO
+                pass
+        return params

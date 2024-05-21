@@ -1,9 +1,12 @@
 """Implements the Request Logger."""
-from flask import Request
-from audit_logger import attributes
+from typing import Optional
+from typing import Tuple
 from urllib.parse import parse_qs
+
+from flask import Request
+
+from audit_logger import attributes
 from audit_logger.base import BaseAuditLogger
-from typing import Optional, Tuple
 
 
 class RequestLogger(BaseAuditLogger):
@@ -83,7 +86,7 @@ class RequestLogger(BaseAuditLogger):
 
             log_values[attributes.REQUEST_BODY] = req_body
 
-        return log_values
+        return self.convert_none_record(log_values)
 
     @staticmethod
     def get_server_info(flask_req: Request) -> Tuple[str, int]:
