@@ -8,7 +8,7 @@ from audit_logger.base import BaseAuditLogger
 class ResponseLogger(BaseAuditLogger):
     """Response logger class to extract http response parameters."""
 
-    def log(self, flask_resp: Response) -> dict:
+    def extract(self, flask_resp: Response) -> dict:
         """Extract response audit log."""
         log_values = {}
 

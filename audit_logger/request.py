@@ -9,7 +9,7 @@ from typing import Optional, Tuple
 class RequestLogger(BaseAuditLogger):
     """Request logger class to extract Http request parameters."""
 
-    def log(self, flask_req: Request) -> dict:
+    def extract(self, flask_req: Request) -> dict:
         """Extract request audit log.
 
         Args:

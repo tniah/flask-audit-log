@@ -20,7 +20,7 @@ class BaseAuditLogger(metaclass=abc.ABCMeta):
         self.cfg = cfg
 
     @abc.abstractmethod
-    def log(self, **kwargs) -> dict:
+    def extract(self, **kwargs) -> dict:
         """Extract audit logs."""
         raise NotImplementedError("must be implemented in subclass.")
 

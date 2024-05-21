@@ -1,6 +1,8 @@
 """An Flask extension to log audit logs."""
+import logging
 from datetime import datetime
 from threading import Thread
+from typing import Callable
 from typing import Optional
 
 import flask
@@ -24,6 +26,7 @@ class FlaskAuditLogger:
             app: Instance of the Flask application.
         """
         self._views = {}
+        self._log_handlers = set()
         self._cfg: Optional[AuditLoggerConfig] = None
         self.app = None
         self.request_logger: Optional[RequestLogger] = None
@@ -52,6 +55,7 @@ class FlaskAuditLogger:
 
         self.request_logger = RequestLogger(self._cfg)
         self.response_logger = ResponseLogger(self._cfg)
+        self.app = app
 
         @app.after_request
         def after_request(resp: Response) -> Response:
@@ -115,11 +119,33 @@ class FlaskAuditLogger:
                 attributes.START_TIME: now.strftime('%Y-%m-%d %H:%M:%S'),
                 attributes.ACTION_ID: action_id,
                 attributes.ACTION_DESCRIPTION: description,
-                attributes.REQUEST: self.request_logger.log(flask.request),
-                attributes.RESPONSE: self.response_logger.log(flask_resp)
+                attributes.REQUEST: self.request_logger.extract(flask.request),
+                attributes.RESPONSE: self.response_logger.extract(flask_resp)
             }
             if self._cfg.log_latency:
                 latency = datetime.now().timestamp() - now.timestamp()
                 audit_log[attributes.LATENCY] = round(latency, 5)
 
+            if not self._log_handlers:
+                self.default_log_handler(audit_log)
+            else:
+                for handler in self._log_handlers:
+                    handler(audit_log)
             return audit_log
+
+    @property
+    def default_log_handler(self):
+        """Default audit log handler."""
+        self.app.logger.setLevel(logging.INFO)
+
+        def handler(audit_log: dict):
+            self.app.logger.info('FlaskAuditLogger: %s', audit_log)
+
+        return handler
+
+    def register_log_handler(self, handler: Callable):
+        """Register a audit log handler."""
+        if not isinstance(handler, Callable):
+            raise TypeError("Handler must be callable.")
+
+        self._log_handlers.add(handler)
