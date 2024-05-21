@@ -26,6 +26,12 @@ class AuditLoggerConfig:
         'log_request_body',
         'log_sensitive_data')
 
+    # source name
+    source_name = 'auditLogger'
+
+    # datetime format
+    datetime_format = '%Y-%m-%d %H:%M:%S'
+
     # Set to true to disable audit logger
     skip = False
 

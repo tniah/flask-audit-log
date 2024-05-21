@@ -1,6 +1,6 @@
 """Definitions for audit logger."""
 
-SERVICE_NAME = 'serviceName'
+SOURCE_NAME = 'source'
 ACTION_ID = 'actionId'
 ACTION_DESCRIPTION = 'description'
 NOT_AVAILABLE = 'N/A'

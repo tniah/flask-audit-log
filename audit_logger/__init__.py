@@ -123,7 +123,8 @@ class FlaskAuditLogger:
         with app.request_context(environ):
             now = datetime.now()
             audit_log = {
-                attributes.START_TIME: now.strftime('%Y-%m-%d %H:%M:%S'),
+                attributes.SOURCE_NAME: self._cfg.source_name,
+                attributes.START_TIME: now.strftime(self._cfg.datetime_format),
                 attributes.ACTION_ID: action_id,
                 attributes.ACTION_DESCRIPTION: description,
                 attributes.REQUEST: self.request_logger.extract(flask.request),
