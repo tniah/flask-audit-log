@@ -150,10 +150,12 @@ class FlaskAuditLogger:
     @property
     def default_log_handler(self) -> Callable:
         """Default audit log handler."""
-        self.app.logger.setLevel(logging.INFO)
+        if self.app.logger.level > logging.INFO:
+            self.app.logger.setLevel(logging.INFO)
 
         def handler(audit_log: dict):
-            self.app.logger.info('FlaskAuditLogger: %s', audit_log)
+            self.app.logger.info(
+                'audit_logger.FlaskAuditLogger: %s', audit_log)
 
         return handler
 
