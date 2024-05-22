@@ -202,7 +202,7 @@ class RequestLogger(BaseAuditLogger):
         return flask_req.user_agent.to_header()
 
     @staticmethod
-    def get_content_length(flask_req: Request) -> int | None:
+    def get_content_length(flask_req: Request) -> Optional[str]:
         """Return the ``Content-Length`` header value as an int.
 
         Args:
