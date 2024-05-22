@@ -113,7 +113,7 @@ class RequestLogger(BaseAuditLogger):
         Args:
             flask_req (Request): Flask request object.
         """
-        return flask_req.environ.get('HTT_X_REAL_IP', flask_req.remote_addr)
+        return flask_req.environ.get('HTTP_X_REAL_IP', flask_req.remote_addr)
 
     @staticmethod
     def get_remote_port(flask_req: Request) -> str:
@@ -237,19 +237,26 @@ class RequestLogger(BaseAuditLogger):
         return parse_qs(flask_req.query_string.decode('UTF-8'))
 
     @staticmethod
-    def get_request_body(flask_req: Request):
+    def get_request_body(flask_req: Request) -> dict:
         """Return request body.
 
         Args:
             flask_req (Request): Flask request object.
         """
         mt = flask_req.mimetype
-        if (mt == "application/json" or mt.startswith("application/")
-                and mt.endswith("+json")):
-            return flask_req.get_json()
-        elif (mt == "multipart/form-data"
-              or mt == "application/x-www-form-urlencoded"):
-            return flask_req.form
+        if (mt == 'application/json' or mt.startswith('application/')
+                and mt.endswith('+json')):
+            json_data = flask_req.get_json()
+            if not isinstance(json_data, dict):
+                return {}
+            else:
+                return json_data
+        elif (mt == 'multipart/form-data'
+              or mt == 'application/x-www-form-urlencoded'):
+            if not flask_req.form:
+                return {}
+            else:
+                return flask_req.form.to_dict()
         else:
             # do not extract other mimetypes
             return {}
