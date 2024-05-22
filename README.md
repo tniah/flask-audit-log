@@ -15,53 +15,79 @@ $ pip install flask_auditor
 ```py
 from flask import Flask
 from flask import jsonify
-from flask.views import MethodView
+
 from flask_auditor import FlaskAuditor
 
 app = Flask(__name__)
-app.config['AUDIT_LOGGER_SKIP'] = False
-app.config['AUDIT_LOGGER_SOURCE_NAME'] = 'classBasedViewExample'
-audit = FlaskAuditor(app)
+app.config['AUDIT_LOGGER_SOURCE_NAME'] = 'auditLogger'
+auditor = FlaskAuditor(app)
 
 
-@audit.log(action_id='GET_USER', description='Fetch a single user by ID')
-class UserView(MethodView):
+@app.route('/api/v1/users', methods=['GET'])
+@auditor.log(action_id='LIST_USERS', description='Fetch a list of users')
+def list_users():
+    resp = jsonify({
+        'users': [
+            {
+                'id': 1,
+                'name': 'Makai'
+            },
+            {
+                'id': 2,
+                'name': 'TNiaH'
+            }
+        ]
+    })
+    resp.status_code = 200
+    return resp
 
-    def get(self, user_id):
-        """Handles GET requests."""
-        resp = jsonify({
-            'id': user_id,
-            'name': 'Makai'
-        })
-        resp.status_code = 200
-        return resp
-
-
-class UsersView(MethodView):
-
-    @audit.log(action_id='GET_USERS', description='Fetch all users')
-    def get(self):
-        """Handles GET requests."""
-        resp = jsonify({
-            'users': [
-                {
-                    'id': 1,
-                    'name': 'Makai'
-                },
-                {
-                    'id': 2,
-                    'name': 'TNiaH'
-                }
-            ]
-        })
-        resp.status_code = 200
-        return resp
-
-
-app.add_url_rule('/api/v1/users', view_func=UsersView.as_view('users'))
-app.add_url_rule('/api/v1/users/<int:user_id>',
-                 view_func=UserView.as_view('user'))
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+```
+
+## Audit Log Example
+
+```json
+{
+  "source": "auditLogger",
+  "startTime": "2024-05-22 11:45:42",
+  "actionId": "LIST_USERS",
+  "description": "Fetch a list of users",
+  "request": {
+    "serverHost": "127.0.0.1",
+    "serverPort": 5000,
+    "requestID": "N/A",
+    "remoteIP": "127.0.0.1",
+    "remotePort": 34038,
+    "protocol": "HTTP/1.1",
+    "host": "127.0.0.1:5000",
+    "method": "GET",
+    "uri": "/api/v1/users?page=1&limit=10",
+    "uriPath": "/api/v1/users",
+    "routePath": "/api/v1/users",
+    "referer": "N/A",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+    "contentLength": "N/A",
+    "headers": {
+      "Accept-Encoding": "gzip, deflate, br"
+    },
+    "queryParams": {
+      "page": [
+        "1"
+      ],
+      "limit": [
+        "10"
+      ]
+    },
+    "requestBody": {}
+  },
+  "response": {
+    "statusCode": 200,
+    "status": "OK",
+    "responseSize": 120
+  },
+  "latency": 0.00011
+}
 ```
