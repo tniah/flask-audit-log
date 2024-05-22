@@ -2,7 +2,7 @@ import pytest
 from flask import Flask
 from flask import jsonify
 from flask import request
-from src.flask_auditor import FlaskAuditor
+from flask_auditor import FlaskAuditor
 
 
 @pytest.fixture(scope='session')
