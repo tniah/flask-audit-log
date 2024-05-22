@@ -7,7 +7,7 @@ Flask-Auditor is an extension for Flask that extract request and response to aud
 Install and upgrade using pip:
 
 ```shell
-$ pip install flask_auditor
+$ pip install flask-auditor
 ```
 
 ## A simple example
