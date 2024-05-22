@@ -5,6 +5,7 @@ class AuditLoggerConfig:
     """Config class for audit logger."""
     # Config options
     options = (
+        'not_available',
         'source_name',
         'datetime_format',
         'skip',
@@ -126,6 +127,8 @@ class AuditLoggerConfig:
 
     def __init__(self, **kwargs):
         """Initialize an object of the AuditLogConfig class."""
-        for key in self.__class__.options:
-            if key in kwargs and kwargs[key] is not None:
-                setattr(self, key, kwargs[key])
+        for key, value in kwargs.items():
+            if value is None or key not in self.__class__.options:
+                continue
+
+            setattr(self, key, value)
