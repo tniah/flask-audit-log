@@ -6,12 +6,11 @@ from flask.views import MethodView
 from flask_auditor import FlaskAuditor
 
 app = Flask(__name__)
-app.config['AUDIT_LOGGER_SKIP'] = False
 app.config['AUDIT_LOGGER_SOURCE_NAME'] = 'classBasedViewExample'
-audit = FlaskAuditor(app)
+auditor = FlaskAuditor(app)
 
 
-@audit.log(action_id='GET_USER', description='Fetch a single user by ID')
+@auditor.log(action_id='GET_USER', description='Fetch a single user by ID')
 class UserView(MethodView):
 
     def get(self, user_id):
@@ -26,7 +25,7 @@ class UserView(MethodView):
 
 class UsersView(MethodView):
 
-    @audit.log(action_id='GET_USERS', description='Fetch all users')
+    @auditor.log(action_id='GET_USERS', description='Fetch all users')
     def get(self):
         """Handles GET requests."""
         resp = jsonify({
@@ -44,7 +43,7 @@ class UsersView(MethodView):
         resp.status_code = 200
         return resp
 
-    @audit.log(action_id='CREATE_USER', description='Create a new user')
+    @auditor.log(action_id='CREATE_USER', description='Create a new user')
     def post(self):
         """Handles POST requests."""
         if request.is_json:

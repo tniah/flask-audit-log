@@ -5,11 +5,12 @@ from flask import request
 from flask_auditor import FlaskAuditor
 
 app = Flask(__name__)
-audit = FlaskAuditor(app)
+app.config['AUDIT_LOGGER_SOURCE_NAME'] = 'functionBasedViewExample'
+auditor = FlaskAuditor(app)
 
 
 @app.route('/api/v1/users', methods=['GET'])
-@audit.log(action_id='LIST_USERS', description='Fetch a list of users')
+@auditor.log(action_id='LIST_USERS', description='Fetch a list of users')
 def list_users():
     resp = jsonify({
         'users': [
@@ -28,7 +29,7 @@ def list_users():
 
 
 @app.route('/api/v1/users', methods=['POST'])
-@audit.log(action_id='CREATE_USER', description='Create a new user')
+@auditor.log(action_id='CREATE_USER', description='Create a new user')
 def create_user():
     if request.is_json:
         name = request.json.get('name')
@@ -54,7 +55,7 @@ def create_user():
 
 
 @app.route('/api/v1/users/<int:user_id>', methods=['GET'])
-@audit.log(action_id='GET_USER', description='Fetch a single user by ID')
+@auditor.log(action_id='GET_USER', description='Fetch a single user by ID')
 def get_user(user_id: int):
     resp = jsonify({
         'id': user_id,
