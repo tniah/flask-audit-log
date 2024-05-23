@@ -1,6 +1,6 @@
 # Flask-Auditor
 
-Flask-Auditor is an extension for Flask that extract request and response to audit log.
+Flask-Auditor is an extension for Flask that extracts request and response to audit log.
 
 ## Installing
 
